@@ -23,26 +23,16 @@ const countries = [
 
 //First part
 /**
- * Check if the county is string and is not empty, then checks if the country is already in array,
- * in both cases function returns false and write message to console,
- * otherwise return true
+ * Check if the county is string and is not empty.
  * @param {string} country wich country we want check
- * @param {array} contries compare to which array
  * @returns {boolean} Depending of the result true or false.
  */
-function validityChecker(country, countries) {
-  if (typeof country === "string" && country.length > 0) {
-    const index = countries.indexOf(country);
-    if (index > -1) {
-      console.log(
-        `Zadaná krajina ${country} se nachází v seznamu krajin na indexe ${index}.`
-      );
-      return false;
-    }
-    return true;
+function validityChecker(country) {
+  if (typeof country !== "string" || country.length === 0) {
+    console.log(`Zadali jste neplatný dotaz: ${country}`);
+    return false;
   }
-  console.log(`Zadali jste neplatný dotaz: ${country}`);
-  return false;
+  return true;
 }
 /**
  * Depending if the country is valid and is in array, if is valid and not present
@@ -51,8 +41,15 @@ function validityChecker(country, countries) {
  * @param {array} contries compare to which array
  */
 function checkCountry(country, countries) {
-  if (validityChecker(country, countries)) {
-    console.log(`Zadaná krajina ${country} se nenachází v seznamu krajin.`);
+  if (validityChecker(country)) {
+    const index = countries.indexOf(country);
+    if (index > -1) {
+      console.log(
+        `Zadaná krajina ${country} se nachází v seznamu krajin na indexe ${index}.`
+      );
+    } else {
+      console.log(`Zadaná krajina ${country} se nenachází v seznamu krajin.`);
+    }
   }
 }
 
@@ -69,13 +66,20 @@ checkCountry(1000, countries);
  * @param {array} contries to which array
  */
 function addCountry(country, countries) {
-  if (validityChecker(country, countries)) {
-    const sizeOfCountries = countries.push(country);
-    console.log(
-      `Zadaná krajina ${country} byla úspěšně přidaná do seznamu krajin na indexu ${
-        sizeOfCountries - 1
-      }. Celkový počet krajin v seznamu je ${sizeOfCountries}.`
-    );
+  if (validityChecker(country)) {
+    if (countries.includes(country)) {
+      const index = countries.indexOf(country);
+      console.log(
+        `Zadaná krajina ${country} se nachází v sezname krajin na indexu ${index}.`
+      );
+    } else {
+      const sizeOfCountries = countries.push(country);
+      console.log(
+        `Zadaná krajina ${country} byla úspěšně přidaná do seznamu krajin na indexu ${
+          sizeOfCountries - 1
+        }. Celkový počet krajin v seznamu je ${sizeOfCountries}.`
+      );
+    }
   }
 }
 
@@ -83,3 +87,26 @@ addCountry("Vietnam", countries);
 addCountry("Mexico", countries);
 addCountry("Poland", countries);
 addCountry("", countries);
+
+/**
+ * @param {string} country wich country we want add
+ * @param {array} contries to which array
+ */
+function removeCountry(country, countries) {
+  if (validityChecker(country)) {
+    if (countries.includes(country)) {
+      const index = countries.indexOf(country);
+      countries.splice(index, 1);
+      console.log(
+        `Zadaná krajina ${country} byla odstraněná se seznamu krajin na indexu ${index}. Aktuální počet krajin v seznamu je ${countries.length}.`
+      );
+    } else {
+      console.log(`Zadaná krajina ${country} se nenachází v seznamu.`);
+    }
+  }
+}
+
+removeCountry("", countries);
+removeCountry("Vietnam", countries);
+removeCountry("Laos", countries);
+removeCountry("Thailand", countries);
